@@ -1,0 +1,22 @@
+[
+  "HDI_Index",
+  "GDP_per_Capita_USD",
+  "Life_Expectancy_years",
+  "Literacy_Rate_pct",
+  "Internet_Access_pct",
+  "Gender_Equality_Index",
+  "Unemployment_Rate_pct",
+  "Days_engaged_in_warfare_per_year",
+  "Higher_Education_Rate",
+  "Medical_Doctors_per_1000",
+  "R_and_D_Expenditure_pct_GDP",
+  "Number_of_Startups",
+  "Trade_Partners_Count",
+  "Import_Rank_Global",
+  "Export_Rank_Global",
+  "Number_of_Patents",
+  "Defence_expenditure_on_GDP",
+  "Number_of_PhD_holders_per_million",
+  "Immigration_Rate",
+  "Migration_Rate"
+]
