@@ -102,7 +102,7 @@ def create_happiness_probability_chart(probabilities: Dict[str, float]) -> go.Fi
 def display_dataset_overview(df: pd.DataFrame):
     """Display basic dataset overview metrics"""
     
-    st.markdown("### 📊 Dataset Overview")
+    st.markdown("###  Dataset Overview")
     
     col1, col2, col3, col4 = st.columns(4)
     
