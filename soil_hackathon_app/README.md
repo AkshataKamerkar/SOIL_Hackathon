@@ -62,7 +62,7 @@ pip install -r requirements.txt
 # Run app
 
 ```
-streamlit run app/main.py
+python -m streamlit run app/main.py
 ```
 
 Open: http://localhost:8501
