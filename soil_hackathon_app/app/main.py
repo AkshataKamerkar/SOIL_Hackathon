@@ -8,11 +8,68 @@ from pathlib import Path
 
 # Page config must be first Streamlit command
 st.set_page_config(
-    page_title="🌍 Global Development Predictor",
-    page_icon="🌍",
+    page_title="Global Development Predictor",
+    page_icon="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f77b4' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/><path d='M2 12h20'/></svg>",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# ============================================================
+# LUCIDE ICONS - SVG DEFINITIONS
+# ============================================================
+def lucide_icon(name: str, size: int = 24, color: str = "currentColor", stroke_width: float = 2) -> str:
+    """Return Lucide icon as inline SVG HTML"""
+    icons = {
+        "globe": '<path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/>',
+        "navigation": '<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
+        "book-open": '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+        "bar-chart-2": '<line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/>',
+        "check-circle": '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+        "alert-triangle": '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/>',
+        "heart": '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+        "trending-up": '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+        "smile": '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/>',
+        "settings": '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+        "trophy": '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+        "star": '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+        "activity": '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+        "arrow-down": '<line x1="12" x2="12" y1="5" y2="19"/><polyline points="19 12 12 19 5 12"/>',
+        "home": '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+        "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+        "dollar-sign": '<line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+        "briefcase": '<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+        "graduation-cap": '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+        "hospital": '<path d="M12 6v4"/><path d="M14 14h-4"/><path d="M14 18h-4"/><path d="M14 8h-4"/><path d="M18 12h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2"/><path d="M18 22V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v18"/>',
+        "flask": '<path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/>',
+        "sparkles": '<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>',
+        "clipboard": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',
+        "lightbulb": '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+        "info": '<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/>',
+        "frown": '<circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/>',
+        "meh": '<circle cx="12" cy="12" r="10"/><line x1="8" x2="16" y1="15" y2="15"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/>',
+        "laugh": '<circle cx="12" cy="12" r="10"/><path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/>',
+        "party-popper": '<path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.63-.69 1.22-1.3 1.22H17c-.76 0-1.38.58-1.44 1.34l-.69 8.66"/>',
+        "scale": '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+        "book-text": '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M8 11h8"/><path d="M8 7h6"/>',
+        "users": '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+        "zap": '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+        "shield": '<path d="M20 13c0 5-3.5 7.5-8 8.5-4.5-1-8-3.5-8-8.5V6c0-1.1.4-2.1 1.2-2.8.7-.8 1.7-1.2 2.8-1.2h8c1.1 0 2 .4 2.8 1.2.8.7 1.2 1.7 1.2 2.8Z"/>',
+        "rocket": '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+        "file-text": '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+        "pie-chart": '<path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>',
+        "wifi": '<path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/>',
+        "wrench": '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+        "plane": '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>'
+    }
+    
+    svg_content = icons.get(name, icons["info"])
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{color}" stroke-width="{stroke_width}" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;">{svg_content}</svg>'''
+
+
+def icon_text(icon_name: str, text: str, size: int = 20, color: str = "currentColor") -> str:
+    """Return icon with text as HTML"""
+    return f'{lucide_icon(icon_name, size, color)} <span style="vertical-align: middle; margin-left: 8px;">{text}</span>'
+
 
 # ============================================================
 # CUSTOM CSS
@@ -66,10 +123,10 @@ from app.components.visualizations import (
 def render_sidebar():
     """Render sidebar"""
     with st.sidebar:
-        st.markdown("## 🌍 Navigation")
+        st.markdown(f'## {lucide_icon("navigation", 24, "#1f77b4")} Navigation', unsafe_allow_html=True)
         st.markdown("---")
         
-        st.markdown("### 📖 About")
+        st.markdown(f'### {lucide_icon("book-open", 20, "#1f77b4")} About', unsafe_allow_html=True)
         st.markdown("""
         This application predicts:
         - **HDI** (Human Development Index)
@@ -79,7 +136,7 @@ def render_sidebar():
         """)
         
         st.markdown("---")
-        st.markdown("### 📊 Model Status")
+        st.markdown(f'### {lucide_icon("bar-chart-2", 20, "#1f77b4")} Model Status', unsafe_allow_html=True)
         
         # Check if models exist
         models_dir = Path("saved_models")
@@ -88,17 +145,17 @@ def render_sidebar():
         reg_exists = (models_dir / "regression" / "hdi_model_v51.joblib").exists()
         
         if clf_exists:
-            st.success("✅ Classification Model")
+            st.markdown(f'{lucide_icon("check-circle", 18, "#28a745")} Classification Model', unsafe_allow_html=True)
         else:
-            st.warning("⚠️ Classification Model Missing")
+            st.markdown(f'{lucide_icon("alert-triangle", 18, "#ffc107")} Classification Missing', unsafe_allow_html=True)
         
         if reg_exists:
-            st.success("✅ Regression Model")
+            st.markdown(f'{lucide_icon("check-circle", 18, "#28a745")} Regression Model', unsafe_allow_html=True)
         else:
-            st.warning("⚠️ Regression Model Missing")
+            st.markdown(f'{lucide_icon("alert-triangle", 18, "#ffc107")} Regression Missing', unsafe_allow_html=True)
         
         st.markdown("---")
-        st.caption("v1.0.0 | Built with ❤️ by Team DATAGEEKS!")
+        st.markdown(f'v1.0.0 | Built with {lucide_icon("heart", 16, "#e74c3c")} by Team DATA WIZARDS!', unsafe_allow_html=True)
 
 
 # ============================================================
@@ -109,7 +166,7 @@ def render_sidebar():
 # ============================================================
 def render_landing_page():
     """Render landing page with dataset analysis"""
-    st.markdown('<h1 class="main-header">🌍 Global Development Predictor</h1>', 
+    st.markdown(f'<h1 class="main-header">{lucide_icon("globe", 40, "#1f77b4")} Global Development Predictor</h1>', 
                 unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Predict HDI & Happiness Index using Machine Learning</p>', 
                 unsafe_allow_html=True)
@@ -119,26 +176,26 @@ def render_landing_page():
     
     with col1:
         with st.container(border=True):
-            st.markdown("### 📈 HDI Prediction")
+            st.markdown(f'### {lucide_icon("trending-up", 24, "#1f77b4")} HDI Prediction', unsafe_allow_html=True)
             st.markdown("Predict Human Development Index based on socioeconomic indicators.")
             st.markdown("---")
-            st.markdown("**🔧 Model Type:** Regression")
-            st.markdown("**📤 Output:** HDI Score (0-1)")
-            st.markdown("**📊 Features:** 25+ indicators")
+            st.markdown(f'{lucide_icon("wrench", 16, "#666")} **Model Type:** Regression', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("target", 16, "#666")} **Output:** HDI Score (0-1)', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("bar-chart-2", 16, "#666")} **Features:** 25+ indicators', unsafe_allow_html=True)
     
     with col2:
         with st.container(border=True):
-            st.markdown("### 😊 Happiness Classification")
+            st.markdown(f'### {lucide_icon("smile", 24, "#1f77b4")} Happiness Classification', unsafe_allow_html=True)
             st.markdown("Classify happiness levels based on country indicators.")
             st.markdown("---")
-            st.markdown("**🔧 Model Type:** Classification")
-            st.markdown("**📤 Output:** Happiness Level (1-8)")
-            st.markdown("**📊 Features:** 20+ indicators")
+            st.markdown(f'{lucide_icon("wrench", 16, "#666")} **Model Type:** Classification', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("target", 16, "#666")} **Output:** Happiness Level (1-8)', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("bar-chart-2", 16, "#666")} **Features:** 20+ indicators', unsafe_allow_html=True)
     
     st.markdown("---")
     
     # Quick reference
-    st.markdown("## 📚 Quick Reference")
+    st.markdown(f'## {lucide_icon("book-text", 28, "#1f77b4")} Quick Reference', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     
@@ -146,26 +203,26 @@ def render_landing_page():
         st.markdown("### HDI Categories")
         hdi_col1, hdi_col2 = st.columns(2)
         with hdi_col1:
-            st.success("🏆 **Very High:** 0.800+")
-            st.info("🌟 **High:** 0.700-0.799")
+            st.markdown(f'{lucide_icon("trophy", 18, "#28a745")} **Very High:** 0.800+', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("star", 18, "#17a2b8")} **High:** 0.700-0.799', unsafe_allow_html=True)
         with hdi_col2:
-            st.warning("📊 **Medium:** 0.550-0.699")
-            st.error("📉 **Low:** Below 0.550")
+            st.markdown(f'{lucide_icon("activity", 18, "#ffc107")} **Medium:** 0.550-0.699', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("arrow-down", 18, "#dc3545")} **Low:** Below 0.550', unsafe_allow_html=True)
     
     with col2:
         st.markdown("### Happiness Levels")
         happy_col1, happy_col2 = st.columns(2)
         with happy_col1:
-            st.success("🤗 **Level 7-8:** Excellent")
-            st.info("😊 **Level 5-6:** High")
+            st.markdown(f'{lucide_icon("party-popper", 18, "#28a745")} **Level 7-8:** Excellent', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("smile", 18, "#17a2b8")} **Level 5-6:** High', unsafe_allow_html=True)
         with happy_col2:
-            st.warning("😐 **Level 3-4:** Average")
-            st.error("😔 **Level 1-2:** Low")
+            st.markdown(f'{lucide_icon("meh", 18, "#ffc107")} **Level 3-4:** Average', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("frown", 18, "#dc3545")} **Level 1-2:** Low', unsafe_allow_html=True)
     
     st.markdown("---")
     
     # ==================== DATA ANALYSIS SECTION ====================
-    st.markdown("## 📊 Dataset Analysis")
+    st.markdown(f'## {lucide_icon("pie-chart", 28, "#1f77b4")} Dataset Analysis', unsafe_allow_html=True)
     
     # Initialize session state
     if 'show_data_analysis' not in st.session_state:
@@ -179,7 +236,7 @@ def render_landing_page():
     with col2:
         if not st.session_state.show_data_analysis:
             # Show button to view analysis
-            st.markdown("""
+            st.markdown(f"""
             <div style="
                 background: #f0f2f6;
                 border-radius: 10px;
@@ -188,16 +245,16 @@ def render_landing_page():
                 margin: 10px 0;
             ">
                 <p style="color: #333; margin-bottom: 15px;">
-                    📈 Explore comprehensive analysis of the dataset including:
+                    {lucide_icon("trending-up", 20, "#1f77b4")} Explore comprehensive analysis of the dataset including:
                 </p>
                 <p style="color: #666; font-size: 0.9em;">
-                    • Distribution Charts • Correlation Matrix • Statistical Summary • Feature Relationships
+                    {lucide_icon("bar-chart-2", 14, "#666")} Distribution Charts {lucide_icon("activity", 14, "#666")} Correlation Matrix {lucide_icon("file-text", 14, "#666")} Statistical Summary
                 </p>
             </div>
             """, unsafe_allow_html=True)
             
             if st.button(
-                "📊 View Data Analysis", 
+                "View Data Analysis", 
                 type="primary", 
                 use_container_width=True,
                 key="show_analysis_btn"
@@ -206,7 +263,7 @@ def render_landing_page():
                 st.rerun()
         else:
             if st.button(
-                "🔼 Hide Data Analysis", 
+                "Hide Data Analysis", 
                 type="secondary", 
                 use_container_width=True,
                 key="hide_analysis_btn"
@@ -221,7 +278,7 @@ def render_landing_page():
         
         # Loading animation for first load
         if not st.session_state.data_loaded:
-            with st.spinner("🔄 Loading dataset and generating visualizations..."):
+            with st.spinner("Loading dataset and generating visualizations..."):
                 import time
                 time.sleep(0.5)  # Brief pause for UX
                 st.session_state.data_loaded = True
@@ -230,7 +287,7 @@ def render_landing_page():
         
         if df is not None:
             # Quick stats at the top
-            st.markdown("### 📈 Quick Stats")
+            st.markdown(f'### {lucide_icon("trending-up", 22, "#1f77b4")} Quick Stats', unsafe_allow_html=True)
             stat_col1, stat_col2, stat_col3, stat_col4 = st.columns(4)
             
             with stat_col1:
@@ -254,7 +311,7 @@ def render_landing_page():
             display_comprehensive_analysis(df)
             
         else:
-            st.warning("📁 No dataset found. Please add `sample_dataset.csv` to the `data/` folder.")
+            st.warning("No dataset found. Please add `sample_dataset.csv` to the `data/` folder.")
             
             uploaded_file = st.file_uploader(
                 "Or upload a CSV file to analyze:",
@@ -272,7 +329,7 @@ def render_landing_page():
 
 def render_hdi_page():
     """Render HDI prediction page with ALL required fields on single page"""
-    st.markdown("## 📈 Human Development Index Prediction")
+    st.markdown(f'## {lucide_icon("trending-up", 28, "#1f77b4")} Human Development Index Prediction', unsafe_allow_html=True)
     st.markdown("Enter country indicators to predict the HDI score.")
     
     st.markdown("---")
@@ -280,7 +337,7 @@ def render_hdi_page():
     inputs = {}
     
     # ==================== CORE INDICATORS ====================
-    st.markdown("### 📊 Core Indicators")
+    st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Core Indicators', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     
     with col1:
@@ -342,7 +399,7 @@ def render_hdi_page():
         )
     
     # ==================== ECONOMIC INDICATORS ====================
-    with st.expander("💰 Economic & Trade Indicators", expanded=True):
+    with st.expander("Economic & Trade Indicators", expanded=True):
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -406,7 +463,7 @@ def render_hdi_page():
             )
     
     # ==================== HEALTH & SOCIAL INDICATORS ====================
-    with st.expander("🏥 Health & Social Indicators", expanded=True):
+    with st.expander("Health & Social Indicators", expanded=True):
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -470,7 +527,7 @@ def render_hdi_page():
             )
     
     # ==================== EDUCATION INDICATORS ====================
-    with st.expander("🎓 Education & Research Indicators", expanded=True):
+    with st.expander("Education & Research Indicators", expanded=True):
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -534,7 +591,7 @@ def render_hdi_page():
             )
     
     # ==================== OTHER INDICATORS ====================
-    with st.expander("📊 Technology & Other Indicators", expanded=True):
+    with st.expander("Technology & Other Indicators", expanded=True):
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -578,12 +635,12 @@ def render_hdi_page():
             # Placeholder for alignment
             st.markdown("")
             st.markdown("")
-            st.info("💡 These indicators help capture technology advancement and governance quality.")
+            st.markdown(f'{lucide_icon("lightbulb", 18, "#17a2b8")} These indicators help capture technology advancement and governance quality.', unsafe_allow_html=True)
     
     st.markdown("---")
     
     # Show summary of inputs
-    with st.expander("📋 View All Input Values", expanded=False):
+    with st.expander("View All Input Values", expanded=False):
         # Create a nice formatted table
         col1, col2 = st.columns(2)
         
@@ -606,7 +663,7 @@ def render_hdi_page():
     st.markdown("---")
     
     # Predict button
-    if st.button("🔮 Predict HDI", type="primary", use_container_width=True, key="hdi_predict_btn"):
+    if st.button("Predict HDI", type="primary", use_container_width=True, key="hdi_predict_btn"):
         with st.spinner("Calculating HDI prediction..."):
             import time
             time.sleep(1)
@@ -633,23 +690,23 @@ def render_hdi_page():
             if mock_hdi >= 0.8:
                 category = "Very High"
                 color = "#2E7D32"
-                emoji = "🏆"
+                result_icon = lucide_icon("trophy", 48, "#2E7D32")
             elif mock_hdi >= 0.7:
                 category = "High"
                 color = "#689F38"
-                emoji = "🌟"
+                result_icon = lucide_icon("star", 48, "#689F38")
             elif mock_hdi >= 0.55:
                 category = "Medium"
                 color = "#FFA000"
-                emoji = "📊"
+                result_icon = lucide_icon("activity", 48, "#FFA000")
             else:
                 category = "Low"
                 color = "#D32F2F"
-                emoji = "📉"
+                result_icon = lucide_icon("arrow-down", 48, "#D32F2F")
         
         # Display result
         st.markdown("---")
-        st.markdown("## 🎯 Prediction Result")
+        st.markdown("##  Prediction Result")
         
         result_col1, result_col2, result_col3 = st.columns([1, 2, 1])
         
@@ -663,7 +720,7 @@ def render_hdi_page():
                 text-align: center;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             ">
-                <span style="font-size: 4em;">{emoji}</span>
+                <div style="margin-bottom: 10px;">{result_icon}</div>
                 <h1 style="color: {color}; margin: 10px 0;">{mock_hdi:.3f}</h1>
                 <span style="
                     background: {color};
@@ -683,10 +740,10 @@ def render_hdi_page():
             "Low": f"An HDI of {mock_hdi:.3f} indicates low human development. Significant investments in education, healthcare, and economic development are needed."
         }
         
-        st.info(f"💡 **Interpretation:** {interpretations[category]}")
+        st.markdown(f'{lucide_icon("lightbulb", 18, "#17a2b8")} **Interpretation:** {interpretations[category]}', unsafe_allow_html=True)
         
         # Feature contribution chart
-        st.markdown("### 📊 Feature Contributions")
+        st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Feature Contributions', unsafe_allow_html=True)
         
         import plotly.graph_objects as go
         
@@ -728,30 +785,30 @@ def render_hdi_page():
         st.plotly_chart(fig, use_container_width=True)
         
         # Recommendations
-        st.markdown("### 📋 Development Recommendations")
+        st.markdown(f'### {lucide_icon("clipboard", 22, "#1f77b4")} Development Recommendations', unsafe_allow_html=True)
         
         recommendations = []
         
         if inputs['Literacy_Rate_pct'] < 80:
-            recommendations.append("📚 **Education:** Improve literacy rates through expanded education programs")
+            recommendations.append(f"{lucide_icon('book-open', 16, '#1f77b4')} **Education:** Improve literacy rates through expanded education programs")
         if inputs['Life_Expectancy_years'] < 70:
-            recommendations.append("🏥 **Healthcare:** Invest in healthcare infrastructure to improve life expectancy")
+            recommendations.append(f"{lucide_icon('hospital', 16, '#1f77b4')} **Healthcare:** Invest in healthcare infrastructure to improve life expectancy")
         if inputs['Internet_Access_pct'] < 60:
-            recommendations.append("🌐 **Digital:** Expand internet infrastructure for better connectivity")
+            recommendations.append(f"{lucide_icon('wifi', 16, '#1f77b4')} **Digital:** Expand internet infrastructure for better connectivity")
         if inputs['Unemployment_Rate_pct'] > 10:
-            recommendations.append("💼 **Employment:** Implement job creation programs to reduce unemployment")
+            recommendations.append(f"{lucide_icon('briefcase', 16, '#1f77b4')} **Employment:** Implement job creation programs to reduce unemployment")
         if inputs['Gender_Equality_Index'] < 60:
-            recommendations.append("⚖️ **Equality:** Strengthen gender equality policies and programs")
+            recommendations.append(f"{lucide_icon('scale', 16, '#1f77b4')} **Equality:** Strengthen gender equality policies and programs")
         if inputs['Days_engaged_in_warfare_per_year'] > 0:
-            recommendations.append("☮️ **Peace:** Prioritize conflict resolution and peacekeeping efforts")
+            recommendations.append(f"{lucide_icon('shield', 16, '#1f77b4')} **Peace:** Prioritize conflict resolution and peacekeeping efforts")
         if inputs['R_and_D_Expenditure_pct_GDP'] < 1.5:
-            recommendations.append("🔬 **Innovation:** Increase R&D investment for technological advancement")
+            recommendations.append(f"{lucide_icon('flask', 16, '#1f77b4')} **Innovation:** Increase R&D investment for technological advancement")
         
         if recommendations:
             for rec in recommendations:
-                st.markdown(f"- {rec}")
+                st.markdown(f"- {rec}", unsafe_allow_html=True)
         else:
-            st.success("✅ All key indicators are at healthy levels! Focus on maintaining current standards.")
+            st.markdown(f'{lucide_icon("check-circle", 18, "#28a745")} All key indicators are at healthy levels! Focus on maintaining current standards.', unsafe_allow_html=True)
 
 
 # ============================================================
@@ -759,7 +816,7 @@ def render_hdi_page():
 # ============================================================
 def render_happiness_page():
     """Render happiness prediction page with ALL required fields"""
-    st.markdown("## 😊 Happiness Index Classification")
+    st.markdown(f'## {lucide_icon("smile", 28, "#1f77b4")} Happiness Index Classification', unsafe_allow_html=True)
     st.markdown("Enter country indicators to classify happiness levels.")
     
     st.markdown("---")
@@ -767,7 +824,7 @@ def render_happiness_page():
     inputs = {}
     
     # ==================== CORE INDICATORS ====================
-    st.markdown("### 📊 Core Indicators")
+    st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Core Indicators', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     
     with col1:
@@ -829,7 +886,7 @@ def render_happiness_page():
         )
     
     # ==================== ADVANCED INDICATORS ====================
-    with st.expander("🔧 Economic & Employment Indicators", expanded=True):
+    with st.expander("Economic & Employment Indicators", expanded=True):
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -892,7 +949,7 @@ def render_happiness_page():
                 key="happy_conflict"
             )
     
-    with st.expander("🎓 Education & Research Indicators", expanded=True):
+    with st.expander("Education & Research Indicators", expanded=True):
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -928,7 +985,7 @@ def render_happiness_page():
                 key="happy_rnd"
             )
     
-    with st.expander("🏥 Health & Innovation Indicators", expanded=True):
+    with st.expander("Health & Innovation Indicators", expanded=True):
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -964,7 +1021,7 @@ def render_happiness_page():
                 key="happy_patents"
             )
     
-    with st.expander("🌍 Migration Indicators", expanded=True):
+    with st.expander("Migration Indicators", expanded=True):
         col1, col2 = st.columns(2)
         
         with col1:
@@ -992,7 +1049,7 @@ def render_happiness_page():
     st.markdown("---")
     
     # Show summary of inputs
-    with st.expander("📋 View All Input Values", expanded=False):
+    with st.expander("View All Input Values", expanded=False):
         input_df = pd.DataFrame([inputs]).T
         input_df.columns = ['Value']
         st.dataframe(input_df, use_container_width=True)
@@ -1000,7 +1057,7 @@ def render_happiness_page():
     st.markdown("---")
     
     # Predict button
-    if st.button("🔮 Predict Happiness Level", type="primary", use_container_width=True, key="happy_predict_btn"):
+    if st.button("Predict Happiness Level", type="primary", use_container_width=True, key="happy_predict_btn"):
         with st.spinner("Analyzing happiness indicators..."):
             import time
             time.sleep(1)
@@ -1023,17 +1080,18 @@ def render_happiness_page():
             confidence = 0.65 + (score % 1) * 0.30
             confidence = min(confidence, 0.95)
             
-            # Emoji and category
-            emojis = ["😢", "😔", "😕", "😐", "🙂", "😊", "😄", "🤗"]
+            # Icons and category
+            icons_list = ["frown", "frown", "meh", "meh", "smile", "smile", "laugh", "party-popper"]
+            colors_list = ["#D32F2F", "#D32F2F", "#FFA000", "#FFA000", "#689F38", "#689F38", "#2E7D32", "#2E7D32"]
             categories = ["Very Low", "Low", "Below Average", "Average", 
                          "Above Average", "High", "Very High", "Excellent"]
             
-            emoji = emojis[happiness_level - 1]
+            result_icon = lucide_icon(icons_list[happiness_level - 1], 48, colors_list[happiness_level - 1])
             category = categories[happiness_level - 1]
         
         # Display result
         st.markdown("---")
-        st.markdown("## 🎯 Prediction Result")
+        st.markdown("##  Prediction Result")
         
         result_col1, result_col2, result_col3 = st.columns([1, 2, 1])
         
@@ -1047,7 +1105,7 @@ def render_happiness_page():
                 text-align: center;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             ">
-                <span style="font-size: 5em;">{emoji}</span>
+                <div style="margin-bottom: 10px;">{result_icon}</div>
                 <h2 style="color: #1f77b4; margin: 10px 0;">Happiness Level: {happiness_level}</h2>
                 <span style="
                     background: #1f77b4;
@@ -1072,10 +1130,10 @@ def render_happiness_page():
         else:
             interpretation = "Lower happiness levels suggesting challenges in economic, social, or political factors."
         
-        st.info(f"💡 **Analysis:** {interpretation}")
+        st.markdown(f'{lucide_icon("lightbulb", 18, "#17a2b8")} **Analysis:** {interpretation}', unsafe_allow_html=True)
         
         # Probability distribution
-        st.markdown("### 📊 Confidence Distribution")
+        st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Confidence Distribution', unsafe_allow_html=True)
         
         import plotly.graph_objects as go
         
@@ -1118,7 +1176,7 @@ def render_happiness_page():
         st.plotly_chart(fig, use_container_width=True)
         
         # Key factors analysis
-        st.markdown("### 🔑 Key Contributing Factors")
+        st.markdown(f'### {lucide_icon("zap", 22, "#1f77b4")} Key Contributing Factors', unsafe_allow_html=True)
         
         factors = {
             'HDI Index': inputs['HDI_Index'] * 2.5,
@@ -1164,9 +1222,9 @@ def main():
     
     # Create tabs
     tab1, tab2, tab3 = st.tabs([
-        "🏠 Dashboard",
-        "📈 HDI Prediction",
-        "😊 Happiness Prediction"
+        "Dashboard",
+        "HDI Prediction",
+        "Happiness Prediction"
     ])
     
     with tab1:
