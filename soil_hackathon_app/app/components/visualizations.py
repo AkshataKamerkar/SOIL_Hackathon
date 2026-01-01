@@ -607,7 +607,7 @@ def display_hdi_analysis(df: pd.DataFrame):
     with col2:
         st.markdown(f"""
         <a href="{HDI_COLAB_LINK}" target="_blank" style="text-decoration: none;">
-            <div style="background: linear-gradient(90deg, #22C55E, #10B981); padding: 14px 24px; 
+            <div style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); padding: 14px 24px; 
                         border-radius: 12px; text-align: center; cursor: pointer; 
                         display: flex; align-items: center; justify-content: center; gap: 10px;">
                 {lucide_icon("flask", 20, "#FFFFFF")}
