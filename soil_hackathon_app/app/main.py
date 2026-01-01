@@ -5,6 +5,11 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from datetime import datetime
+import time
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 # Page config must be first Streamlit command
 st.set_page_config(
@@ -76,35 +81,374 @@ def icon_text(icon_name: str, text: str, size: int = 20, color: str = "currentCo
 # ============================================================
 st.markdown("""
 <style>
+    /* Base Theme */
+    .stApp {
+        background: linear-gradient(180deg, #0A0A0F 0%, #131326 50%, #0A0A0F 100%);
+        color: #ffffff;
+    }
+    
+    /* Enhanced Header */
     .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #1f77b4;
+        background: linear-gradient(90deg, #667EEA 0%, #764BA2 50%, #F093FB 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 3.8rem;
+        font-weight: 900;
         text-align: center;
         padding: 1rem 0;
+        font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+        letter-spacing: -1px;
+        margin-bottom: 0.2rem;
+        text-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
     }
+    
     .sub-header {
-        font-size: 1.2rem;
-        color: #666;
+        color: #A0AEC0;
+        font-size: 1.3rem;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        font-weight: 400;
+        background: linear-gradient(90deg, #A0AEC0, #CBD5E0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
-    .metric-card {
-        background: white;
-        border-radius: 10px;
+    
+    /* Ultra Premium Card */
+    .ultra-card {
+        background: rgba(26, 32, 44, 0.8);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 32px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 
+            0 4px 6px -1px rgba(0, 0, 0, 0.2),
+            0 10px 15px -3px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ultra-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
+    }
+    
+    .ultra-card:hover {
+        transform: translateY(-8px) scale(1.01);
+        border-color: rgba(102, 126, 234, 0.4);
+        box-shadow: 
+            0 20px 25px -5px rgba(0, 0, 0, 0.4),
+            0 35px 60px -15px rgba(102, 126, 234, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Glass Morphism Effect */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Modern Gradient Border */
+    .gradient-border-card {
+        position: relative;
+        background: linear-gradient(135deg, rgba(26, 32, 44, 0.9), rgba(30, 41, 59, 0.9));
+        border-radius: 24px;
+        padding: 32px;
+    }
+    
+    .gradient-border-card::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, 
+            #667EEA, 
+            #764BA2, 
+            #F093FB,
+            #667EEA);
+        border-radius: 26px;
+        z-index: -1;
+        animation: rotate 4s linear infinite;
+        background-size: 400% 400%;
+    }
+    
+    @keyframes rotate {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* Premium Button */
+    .stButton > button {
+        background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        padding: 16px 36px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stButton > button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: 0.5s;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+    }
+    
+    .stButton > button:hover::before {
+        left: 100%;
+    }
+    
+    /* Secondary Button */
+    .stButton > button[kind="secondary"] {
+        background: rgba(102, 126, 234, 0.1);
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        color: #A0AEC0;
+    }
+    
+    /* Enhanced Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 4px;
+        background: rgba(26, 32, 44, 0.8);
+        padding: 8px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        border-radius: 12px;
+        padding: 14px 28px;
+        color: #A0AEC0;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(102, 126, 234, 0.1);
+        color: #ffffff;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Premium Metric Cards */
+    .stMetric {
+        background: rgba(26, 32, 44, 0.7) !important;
+        border-radius: 20px !important;
+        padding: 20px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Sidebar Enhancement */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98)) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Form Elements Styling */
+    .stNumberInput > div > div, 
+    .stSelectbox > div > div,
+    .stTextInput > div > div {
+        background: rgba(26, 32, 44, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 16px !important;
+        backdrop-filter: blur(10px);
+    }
+    
+    .stSlider > div > div {
+        background: rgba(26, 32, 44, 0.8) !important;
+        border-radius: 16px !important;
+    }
+    
+    /* Footer Enhancement */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(26, 32, 44, 0.95));
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Badges */
+    .badge {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin: 4px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .badge-success {
+        background: linear-gradient(135deg, rgba(72, 187, 120, 0.2), rgba(56, 161, 105, 0.2));
+        color: #48BB78;
+        border-color: rgba(72, 187, 120, 0.3);
+    }
+    
+    .badge-warning {
+        background: linear-gradient(135deg, rgba(246, 173, 85, 0.2), rgba(237, 137, 54, 0.2));
+        color: #F6AD55;
+        border-color: rgba(246, 173, 85, 0.3);
+    }
+    
+    .badge-primary {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+        color: #667EEA;
+        border-color: rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+        background: rgba(26, 32, 44, 0.8);
+        border-radius: 20px;
         padding: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-left: 5px solid #1f77b4;
-        margin: 10px 0;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .success-card {
-        border-left-color: #28a745;
+    
+    .progress-bar {
+        height: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 15px 0;
+        position: relative;
     }
-    .warning-card {
-        border-left-color: #ffc107;
+    
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667EEA, #764BA2);
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .progress-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent);
+        animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    /* Confidence Meter */
+    .confidence-meter {
+        width: 100%;
+        height: 120px;
+        position: relative;
+        margin: 30px 0;
+    }
+    
+    .confidence-fill {
+        position: absolute;
+        height: 100%;
+        background: linear-gradient(180deg, 
+            rgba(102, 126, 234, 0.1), 
+            rgba(118, 75, 162, 0.2));
+        border-radius: 20px;
+        transition: width 1.5s ease-in-out;
+    }
+    
+    .confidence-value {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #667EEA, #764BA2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+    }
+    
+    .confidence-label {
+        position: absolute;
+        top: -25px;
+        left: 0;
+        color: #A0AEC0;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(26, 32, 44, 0.5);
+        border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #667EEA, #764BA2);
+        border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #764BA2, #667EEA);
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # ============================================================
@@ -123,40 +467,65 @@ from app.components.visualizations import (
 def render_sidebar():
     """Render sidebar"""
     with st.sidebar:
-        st.markdown(f'## {lucide_icon("navigation", 24, "#1f77b4")} Navigation', unsafe_allow_html=True)
-        st.markdown("---")
+        # Premium Title (same as original but with gradient)
         
-        st.markdown(f'### {lucide_icon("book-open", 20, "#1f77b4")} About', unsafe_allow_html=True)
+        
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #667EEA, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        
+        # Navigation - YOUR EXACT CONTENT with premium colors
+        st.markdown(f'## {lucide_icon("navigation", 24, "#667EEA")} Navigation', unsafe_allow_html=True)
+        
+       
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #764BA2, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        
+        # About - YOUR EXACT CONTENT with premium colors
+        st.markdown(f'### {lucide_icon("book-open", 20, "#667EEA")} About', unsafe_allow_html=True)
         st.markdown("""
         This application predicts:
-        - **HDI** (Human Development Index)
-        - **Happiness Index**
+       
+        """)
+         # Navigation buttons matching original design
+     
+        
+        if st.button("- HDI Prediction", use_container_width=True, key="nav_hdi"):
+            st.session_state.selected_tab = "HDI Prediction"
+            st.rerun()
+        
+        if st.button("- Happiness Prediction", use_container_width=True, key="nav_happiness"):
+            st.session_state.selected_tab = "Happiness Prediction"
+            st.rerun()
+
+        st.markdown("""
         
         Using Machine Learning models.
-        """)
+        """)    
         
-        st.markdown("---")
-        st.markdown(f'### {lucide_icon("bar-chart-2", 20, "#1f77b4")} Model Status', unsafe_allow_html=True)
         
-        # Check if models exist
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #F093FB, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        
+        # Model Status - YOUR EXACT CONTENT with premium colors
+        st.markdown(f'### {lucide_icon("bar-chart-2", 20, "#667EEA")} Model Status', unsafe_allow_html=True)
+        
+        # Check if models exist - YOUR EXACT LOGIC
         models_dir = Path("saved_models")
         
         clf_exists = (models_dir / "classification" / "model.joblib").exists()
         reg_exists = (models_dir / "regression" / "hdi_model_v51.joblib").exists()
         
         if clf_exists:
-            st.markdown(f'{lucide_icon("check-circle", 18, "#28a745")} Classification Model', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("check-circle", 18, "#48BB78")} Classification Model', unsafe_allow_html=True)
         else:
-            st.markdown(f'{lucide_icon("alert-triangle", 18, "#ffc107")} Classification Missing', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("alert-triangle", 18, "#F59E0B")} Classification Missing', unsafe_allow_html=True)
         
         if reg_exists:
-            st.markdown(f'{lucide_icon("check-circle", 18, "#28a745")} Regression Model', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("check-circle", 18, "#48BB78")} Regression Model', unsafe_allow_html=True)
         else:
-            st.markdown(f'{lucide_icon("alert-triangle", 18, "#ffc107")} Regression Missing', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("alert-triangle", 18, "#F59E0B")} Regression Missing', unsafe_allow_html=True)
         
-        st.markdown("---")
-        st.markdown(f'v1.0.0 | Built with {lucide_icon("heart", 16, "#e74c3c")} by Team DATA WIZARDS!', unsafe_allow_html=True)
-
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #667EEA, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        
+        # Footer - YOUR EXACT CONTENT with premium colors
+        st.markdown(f'<div style="text-align: center; padding: 20px 0;">v1.0.0 | Built with {lucide_icon("heart", 16, "#EF4444")} by Team DATA WIZARDS!</div>', unsafe_allow_html=True)
 
 # ============================================================
 # LANDING PAGE
@@ -629,7 +998,9 @@ def render_hdi_page():
                 step=1,
                 help="Current happiness level (used as input for HDI prediction)",
                 key="hdi_happiness_input"
+                
             )
+                  
         
         with col3:
             # Placeholder for alignment
@@ -713,17 +1084,21 @@ def render_hdi_page():
         with result_col2:
             st.markdown(f"""
             <div style="
-                background: linear-gradient(135deg, #f5f5f5 0%, white 100%);
-                border-left: 5px solid {color};
-                border-radius: 10px;
-                padding: 30px;
+                position: relative;
+                background: rgba(15, 23, 42, 0.78);
+                border-radius: 18px;
+                padding: 32px;
                 text-align: center;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                box-shadow:
+                    0 0 0 1px rgba(255,255,255,0.08),
+                    0 20px 40px rgba(0,0,0,0.5),
+                    0 0 40px rgba(102,126,234,0.35);
+                backdrop-filter: blur(16px);
             ">
                 <div style="margin-bottom: 10px;">{result_icon}</div>
-                <h1 style="color: {color}; margin: 10px 0;">{mock_hdi:.3f}</h1>
+                <h1 style="color: #667EEA; margin: 10px 0;">{mock_hdi:.3f}</h1>
                 <span style="
-                    background: {color};
+                    background: #667EEA;
                     color: white;
                     padding: 8px 20px;
                     border-radius: 20px;
@@ -731,7 +1106,11 @@ def render_hdi_page():
                 ">{category} Human Development</span>
             </div>
             """, unsafe_allow_html=True)
-        
+
+            
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
         # Interpretation
         interpretations = {
             "Very High": f"With an HDI of {mock_hdi:.3f}, this represents very high human development. Countries at this level typically have excellent healthcare, education, and living standards.",
@@ -1098,12 +1477,16 @@ def render_happiness_page():
         with result_col2:
             st.markdown(f"""
             <div style="
-                background: linear-gradient(135deg, #f5f5f5 0%, white 100%);
-                border-left: 5px solid #1f77b4;
-                border-radius: 10px;
-                padding: 30px;
+                position: relative;
+                background: rgba(15, 23, 42, 0.78);
+                border-radius: 18px;
+                padding: 32px;
                 text-align: center;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                box-shadow:
+                    0 0 0 1px rgba(255,255,255,0.08),
+                    0 20px 40px rgba(0,0,0,0.5),
+                    0 0 40px rgba(102,126,234,0.35);
+                backdrop-filter: blur(16px);
             ">
                 <div style="margin-bottom: 10px;">{result_icon}</div>
                 <h2 style="color: #1f77b4; margin: 10px 0;">Happiness Level: {happiness_level}</h2>
@@ -1119,6 +1502,11 @@ def render_happiness_page():
                 </p>
             </div>
             """, unsafe_allow_html=True)
+            st.markdown(
+    "<div style='height: 24px;'></div>",
+    unsafe_allow_html=True
+)
+
         
         # Interpretation
         if happiness_level >= 7:

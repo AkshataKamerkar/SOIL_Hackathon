@@ -28,11 +28,20 @@ class AppConfig:
     APP_ICON: str = "🌍"
     APP_LAYOUT: str = "wide"
     
+   # Premium Color Scheme
+    PRIMARY_COLOR: str = "#6366f1"  # Indigo
+    SECONDARY_COLOR: str = "#8b5cf6"  # Violet
+    ACCENT_COLOR: str = "#ec4899"  # Pink
+    SUCCESS_COLOR: str = "#10b981"  # Emerald
+    WARNING_COLOR: str = "#f59e0b"  # Amber
+    DANGER_COLOR: str = "#ef4444"  # Red
+    
     # Theme Colors
-    PRIMARY_COLOR: str = "#1f77b4"
-    SUCCESS_COLOR: str = "#28a745"
-    WARNING_COLOR: str = "#ffc107"
-    DANGER_COLOR: str = "#dc3545"
+    BACKGROUND_DARK: str = "#0a0a0f"
+    BACKGROUND_CARD: str = "rgba(30, 41, 59, 0.7)"
+    TEXT_PRIMARY: str = "#ffffff"
+    TEXT_SECONDARY: str = "#94a3b8"
+    BORDER_COLOR: str = "rgba(255, 255, 255, 0.1)"
     
     # HDI Thresholds
     HDI_THRESHOLDS: Dict[str, tuple] = field(default_factory=lambda: {
