@@ -482,20 +482,10 @@ def render_sidebar():
         st.markdown(f'### {lucide_icon("book-open", 20, "#667EEA")} About', unsafe_allow_html=True)
         st.markdown("""
         This application predicts:
+        
+       - **HDI** (Human Development Index)
+        - **Happiness Index**
        
-        """)
-         # Navigation buttons matching original design
-     
-        
-        if st.button("- HDI Prediction", use_container_width=True, key="nav_hdi"):
-            st.session_state.selected_tab = "HDI Prediction"
-            st.rerun()
-        
-        if st.button("- Happiness Prediction", use_container_width=True, key="nav_happiness"):
-            st.session_state.selected_tab = "Happiness Prediction"
-            st.rerun()
-
-        st.markdown("""
         
         Using Machine Learning models.
         """)    
