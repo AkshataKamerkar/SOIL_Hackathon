@@ -14,7 +14,7 @@ from plotly.subplots import make_subplots
 # Page config must be first Streamlit command
 st.set_page_config(
     page_title="Global Development Predictor",
-    page_icon="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f77b4' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/><path d='M2 12h20'/></svg>",
+    page_icon="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FF6B35' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/><path d='M2 12h20'/></svg>",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -77,19 +77,32 @@ def icon_text(icon_name: str, text: str, size: int = 20, color: str = "currentCo
 
 
 # ============================================================
-# CUSTOM CSS
+# CUSTOM CSS - WHITE & ORANGE THEME
 # ============================================================
 st.markdown("""
 <style>
-    /* Base Theme */
-    .stApp {
-        background: linear-gradient(180deg, #0A0A0F 0%, #131326 50%, #0A0A0F 100%);
-        color: #ffffff;
+    /* Hide Streamlit header/toolbar */
+    header[data-testid="stHeader"] {
+        display: none !important;
     }
     
-    /* Enhanced Header */
+    #MainMenu {
+        visibility: hidden;
+    }
+    
+    .stDeployButton {
+        display: none !important;
+    }
+    
+    /* Base Theme - Light Background */
+    .stApp {
+        background: linear-gradient(180deg, #FFFFFF 0%, #FFF8F3 50%, #FFFFFF 100%);
+        color: #2D3748;
+    }
+    
+    /* Enhanced Header - Orange Gradient */
     .main-header {
-        background: linear-gradient(90deg, #667EEA 0%, #764BA2 50%, #F093FB 100%);
+        background: linear-gradient(90deg, #FF6B35 0%, #F7931E 50%, #FFB347 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-size: 3.8rem;
@@ -99,32 +112,32 @@ st.markdown("""
         font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
         letter-spacing: -1px;
         margin-bottom: 0.2rem;
-        text-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        text-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
     }
     
     .sub-header {
-        color: #A0AEC0;
+        color: #718096;
         font-size: 1.3rem;
         text-align: center;
         margin-bottom: 3rem;
         font-weight: 400;
-        background: linear-gradient(90deg, #A0AEC0, #CBD5E0);
+        background: linear-gradient(90deg, #718096, #A0AEC0);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
     
-    /* Ultra Premium Card */
+    /* Ultra Premium Card - Light Theme */
     .ultra-card {
-        background: rgba(26, 32, 44, 0.8);
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border-radius: 24px;
         padding: 32px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 107, 53, 0.15);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 
-            0 4px 6px -1px rgba(0, 0, 0, 0.2),
-            0 10px 15px -3px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            0 4px 6px -1px rgba(255, 107, 53, 0.1),
+            0 10px 15px -3px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
         position: relative;
         overflow: hidden;
     }
@@ -136,34 +149,34 @@ st.markdown("""
         left: 0;
         right: 0;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.5), transparent);
     }
     
     .ultra-card:hover {
         transform: translateY(-8px) scale(1.01);
-        border-color: rgba(102, 126, 234, 0.4);
+        border-color: rgba(255, 107, 53, 0.4);
         box-shadow: 
-            0 20px 25px -5px rgba(0, 0, 0, 0.4),
-            0 35px 60px -15px rgba(102, 126, 234, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 20px 25px -5px rgba(255, 107, 53, 0.15),
+            0 35px 60px -15px rgba(255, 107, 53, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
     }
     
-    /* Glass Morphism Effect */
+    /* Glass Morphism Effect - Light */
     .glass-card {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(15px);
         border-radius: 20px;
         padding: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 107, 53, 0.1);
         box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 8px 32px rgba(255, 107, 53, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
     
-    /* Modern Gradient Border */
+    /* Modern Gradient Border - Orange */
     .gradient-border-card {
         position: relative;
-        background: linear-gradient(135deg, rgba(26, 32, 44, 0.9), rgba(30, 41, 59, 0.9));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 243, 0.98));
         border-radius: 24px;
         padding: 32px;
     }
@@ -176,10 +189,10 @@ st.markdown("""
         right: -2px;
         bottom: -2px;
         background: linear-gradient(45deg, 
-            #667EEA, 
-            #764BA2, 
-            #F093FB,
-            #667EEA);
+            #FF6B35, 
+            #F7931E, 
+            #FFB347,
+            #FF6B35);
         border-radius: 26px;
         z-index: -1;
         animation: rotate 4s linear infinite;
@@ -192,9 +205,9 @@ st.markdown("""
         100% { background-position: 0% 50%; }
     }
     
-    /* Premium Button */
+    /* Premium Button - Orange */
     .stButton > button {
-        background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
         color: white;
         border: none;
         border-radius: 16px;
@@ -202,7 +215,7 @@ st.markdown("""
         font-weight: 700;
         font-size: 1.1rem;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
         position: relative;
         overflow: hidden;
     }
@@ -214,13 +227,13 @@ st.markdown("""
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
         transition: 0.5s;
     }
     
     .stButton > button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        box-shadow: 0 8px 30px rgba(255, 107, 53, 0.6);
     }
     
     .stButton > button:hover::before {
@@ -229,88 +242,110 @@ st.markdown("""
     
     /* Secondary Button */
     .stButton > button[kind="secondary"] {
-        background: rgba(102, 126, 234, 0.1);
-        border: 1px solid rgba(102, 126, 234, 0.3);
-        color: #A0AEC0;
+        background: rgba(255, 107, 53, 0.1);
+        border: 1px solid rgba(255, 107, 53, 0.3);
+        color: #FF6B35;
     }
     
-    /* Enhanced Tabs */
+    /* Enhanced Tabs - Light Theme */
     .stTabs [data-baseweb="tab-list"] {
         gap: 4px;
-        background: rgba(26, 32, 44, 0.8);
-        padding: 8px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 8px; 
         border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 107, 53, 0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     
     .stTabs [data-baseweb="tab"] {
         background: transparent;
         border-radius: 12px;
         padding: 14px 28px;
-        color: #A0AEC0;
+        color: #718096;
         font-weight: 600;
         transition: all 0.3s ease;
     }
     
     .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(102, 126, 234, 0.1);
-        color: #ffffff;
+        background: rgba(255, 107, 53, 0.1);
+        color: #FF6B35;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
         color: white !important;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
     }
     
-    /* Premium Metric Cards */
+    /* Premium Metric Cards - Light */
     .stMetric {
-        background: rgba(26, 32, 44, 0.7) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
         border-radius: 20px !important;
         padding: 20px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 107, 53, 0.15) !important;
         backdrop-filter: blur(10px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     
-    /* Sidebar Enhancement */
+    /* Sidebar Enhancement - Light */
     section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98)) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 243, 0.98)) !important;
+        border-right: 1px solid rgba(255, 107, 53, 0.15);
     }
     
-    /* Form Elements Styling */
+    section[data-testid="stSidebar"] * {
+        color: #2D3748 !important;
+    }
+    
+    /* Form Elements Styling - Light */
     .stNumberInput > div > div, 
     .stSelectbox > div > div,
     .stTextInput > div > div {
-        background: rgba(26, 32, 44, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border: 1px solid rgba(255, 107, 53, 0.2) !important;
         border-radius: 16px !important;
         backdrop-filter: blur(10px);
     }
     
     .stSlider > div > div {
-        background: rgba(26, 32, 44, 0.8) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
         border-radius: 16px !important;
     }
     
-    /* Footer Enhancement */
+    /* Input Labels - Make text visible */
+    .stNumberInput label,
+    .stSlider label,
+    .stSelectbox label,
+    .stTextInput label,
+    .stNumberInput p,
+    .stSlider p,
+    div[data-testid="stWidgetLabel"] p,
+    div[data-testid="stWidgetLabel"] label,
+    div[data-testid="stWidgetLabel"] span {
+        color: #000000 !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+    }
+    
+    /* Footer Enhancement - Light */
     .footer {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(90deg, rgba(15, 23, 42, 0.95), rgba(26, 32, 44, 0.95));
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 243, 0.98));
         backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 107, 53, 0.15);
         padding: 20px 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         z-index: 1000;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 -4px 20px rgba(255, 107, 53, 0.1);
     }
     
     /* Badges */
+    /* Badges - Light Theme */
     .badge {
         display: inline-block;
         padding: 8px 20px;
@@ -319,41 +354,42 @@ st.markdown("""
         font-weight: 700;
         margin: 4px;
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 107, 53, 0.15);
     }
     
     .badge-success {
-        background: linear-gradient(135deg, rgba(72, 187, 120, 0.2), rgba(56, 161, 105, 0.2));
-        color: #48BB78;
+        background: linear-gradient(135deg, rgba(72, 187, 120, 0.15), rgba(56, 161, 105, 0.15));
+        color: #38A169;
         border-color: rgba(72, 187, 120, 0.3);
     }
     
     .badge-warning {
-        background: linear-gradient(135deg, rgba(246, 173, 85, 0.2), rgba(237, 137, 54, 0.2));
-        color: #F6AD55;
-        border-color: rgba(246, 173, 85, 0.3);
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(247, 147, 30, 0.15));
+        color: #FF6B35;
+        border-color: rgba(255, 107, 53, 0.3);
     }
     
     .badge-primary {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-        color: #667EEA;
-        border-color: rgba(102, 126, 234, 0.3);
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(247, 147, 30, 0.15));
+        color: #FF6B35;
+        border-color: rgba(255, 107, 53, 0.3);
     }
     
-    /* Progress Bar */
+    /* Progress Bar - Light Theme */
     .progress-container {
-        background: rgba(26, 32, 44, 0.8);
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
         padding: 20px;
         position: relative;
         overflow: hidden;
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 107, 53, 0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     
     .progress-bar {
         height: 12px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 107, 53, 0.1);
         border-radius: 10px;
         overflow: hidden;
         margin: 15px 0;
@@ -362,7 +398,7 @@ st.markdown("""
     
     .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #667EEA, #764BA2);
+        background: linear-gradient(90deg, #FF6B35, #F7931E);
         border-radius: 10px;
         position: relative;
         overflow: hidden;
@@ -387,7 +423,7 @@ st.markdown("""
         100% { transform: translateX(100%); }
     }
     
-    /* Confidence Meter */
+    /* Confidence Meter - Light Theme */
     .confidence-meter {
         width: 100%;
         height: 120px;
@@ -399,8 +435,8 @@ st.markdown("""
         position: absolute;
         height: 100%;
         background: linear-gradient(180deg, 
-            rgba(102, 126, 234, 0.1), 
-            rgba(118, 75, 162, 0.2));
+            rgba(255, 107, 53, 0.1), 
+            rgba(247, 147, 30, 0.15));
         border-radius: 20px;
         transition: width 1.5s ease-in-out;
     }
@@ -412,39 +448,39 @@ st.markdown("""
         transform: translate(-50%, -50%);
         font-size: 3rem;
         font-weight: 900;
-        background: linear-gradient(135deg, #667EEA, #764BA2);
+        background: linear-gradient(135deg, #FF6B35, #F7931E);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+        text-shadow: 0 2px 10px rgba(255, 107, 53, 0.3);
     }
     
     .confidence-label {
         position: absolute;
         top: -25px;
         left: 0;
-        color: #A0AEC0;
+        color: #718096;
         font-size: 1rem;
         font-weight: 600;
     }
     
-    /* Custom Scrollbar */
+    /* Custom Scrollbar - Light Theme */
     ::-webkit-scrollbar {
         width: 10px;
         height: 10px;
     }
     
     ::-webkit-scrollbar-track {
-        background: rgba(26, 32, 44, 0.5);
+        background: rgba(255, 107, 53, 0.1);
         border-radius: 5px;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #667EEA, #764BA2);
+        background: linear-gradient(180deg, #FF6B35, #F7931E);
         border-radius: 5px;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #764BA2, #667EEA);
+        background: linear-gradient(180deg, #F7931E, #FF6B35);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -470,16 +506,16 @@ def render_sidebar():
         # Premium Title (same as original but with gradient)
         
         
-        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #667EEA, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #FF6B35, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
         
         # Navigation - YOUR EXACT CONTENT with premium colors
-        st.markdown(f'## {lucide_icon("navigation", 24, "#667EEA")} Navigation', unsafe_allow_html=True)
+        st.markdown(f'## {lucide_icon("navigation", 24, "#FF6B35")} Navigation', unsafe_allow_html=True)
         
        
-        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #764BA2, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #F7931E, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
         
         # About - YOUR EXACT CONTENT with premium colors
-        st.markdown(f'### {lucide_icon("book-open", 20, "#667EEA")} About', unsafe_allow_html=True)
+        st.markdown(f'### {lucide_icon("book-open", 20, "#FF6B35")} About', unsafe_allow_html=True)
         st.markdown("""
         This application predicts:
         
@@ -491,10 +527,10 @@ def render_sidebar():
         """)    
         
         
-        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #F093FB, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #FFB347, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
         
         # Model Status - YOUR EXACT CONTENT with premium colors
-        st.markdown(f'### {lucide_icon("bar-chart-2", 20, "#667EEA")} Model Status', unsafe_allow_html=True)
+        st.markdown(f'### {lucide_icon("bar-chart-2", 20, "#FF6B35")} Model Status', unsafe_allow_html=True)
         
         # Check if models exist - YOUR EXACT LOGIC
         models_dir = Path("saved_models")
@@ -503,19 +539,19 @@ def render_sidebar():
         reg_exists = (models_dir / "regression" / "hdi_model_v51.joblib").exists()
         
         if clf_exists:
-            st.markdown(f'{lucide_icon("check-circle", 18, "#48BB78")} Classification Model', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("check-circle", 18, "#38A169")} Classification Model', unsafe_allow_html=True)
         else:
-            st.markdown(f'{lucide_icon("alert-triangle", 18, "#F59E0B")} Classification Missing', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("alert-triangle", 18, "#FF6B35")} Classification Missing', unsafe_allow_html=True)
         
         if reg_exists:
-            st.markdown(f'{lucide_icon("check-circle", 18, "#48BB78")} Regression Model', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("check-circle", 18, "#38A169")} Regression Model', unsafe_allow_html=True)
         else:
-            st.markdown(f'{lucide_icon("alert-triangle", 18, "#F59E0B")} Regression Missing', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("alert-triangle", 18, "#FF6B35")} Regression Missing', unsafe_allow_html=True)
         
-        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #667EEA, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #FF6B35, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
         
         # Footer - YOUR EXACT CONTENT with premium colors
-        st.markdown(f'<div style="text-align: center; padding: 20px 0;">v1.0.0 | Built with {lucide_icon("heart", 16, "#EF4444")} by Team DATA WIZARDS!</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="text-align: center; padding: 20px 0;">v1.0.0 | Built with {lucide_icon("heart", 16, "#FF6B35")} by Team DATA WIZARDS!</div>', unsafe_allow_html=True)
 
 # ============================================================
 # LANDING PAGE
@@ -525,7 +561,7 @@ def render_sidebar():
 # ============================================================
 def render_landing_page():
     """Render landing page with dataset analysis"""
-    st.markdown(f'<h1 class="main-header">{lucide_icon("globe", 40, "#1f77b4")} Global Development Predictor</h1>', 
+    st.markdown(f'<h1 class="main-header">{lucide_icon("globe", 40, "#FF6B35")} Global Development Predictor</h1>', 
                 unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Predict HDI & Happiness Index using Machine Learning</p>', 
                 unsafe_allow_html=True)
@@ -535,26 +571,26 @@ def render_landing_page():
     
     with col1:
         with st.container(border=True):
-            st.markdown(f'### {lucide_icon("trending-up", 24, "#1f77b4")} HDI Prediction', unsafe_allow_html=True)
+            st.markdown(f'### {lucide_icon("trending-up", 24, "#FF6B35")} HDI Prediction', unsafe_allow_html=True)
             st.markdown("Predict Human Development Index based on socioeconomic indicators.")
             st.markdown("---")
-            st.markdown(f'{lucide_icon("wrench", 16, "#666")} **Model Type:** Regression', unsafe_allow_html=True)
-            st.markdown(f'{lucide_icon("target", 16, "#666")} **Output:** HDI Score (0-1)', unsafe_allow_html=True)
-            st.markdown(f'{lucide_icon("bar-chart-2", 16, "#666")} **Features:** 25+ indicators', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("wrench", 16, "#718096")} **Model Type:** Regression', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("target", 16, "#718096")} **Output:** HDI Score (0-1)', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("bar-chart-2", 16, "#718096")} **Features:** 25+ indicators', unsafe_allow_html=True)
     
     with col2:
         with st.container(border=True):
-            st.markdown(f'### {lucide_icon("smile", 24, "#1f77b4")} Happiness Classification', unsafe_allow_html=True)
+            st.markdown(f'### {lucide_icon("smile", 24, "#FF6B35")} Happiness Classification', unsafe_allow_html=True)
             st.markdown("Classify happiness levels based on country indicators.")
             st.markdown("---")
-            st.markdown(f'{lucide_icon("wrench", 16, "#666")} **Model Type:** Classification', unsafe_allow_html=True)
-            st.markdown(f'{lucide_icon("target", 16, "#666")} **Output:** Happiness Level (1-8)', unsafe_allow_html=True)
-            st.markdown(f'{lucide_icon("bar-chart-2", 16, "#666")} **Features:** 20+ indicators', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("wrench", 16, "#718096")} **Model Type:** Classification', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("target", 16, "#718096")} **Output:** Happiness Level (1-8)', unsafe_allow_html=True)
+            st.markdown(f'{lucide_icon("bar-chart-2", 16, "#718096")} **Features:** 20+ indicators', unsafe_allow_html=True)
     
     st.markdown("---")
     
     # Quick reference
-    st.markdown(f'## {lucide_icon("book-text", 28, "#1f77b4")} Quick Reference', unsafe_allow_html=True)
+    st.markdown(f'## {lucide_icon("book-text", 28, "#FF6B35")} Quick Reference', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     
@@ -581,7 +617,7 @@ def render_landing_page():
     st.markdown("---")
     
     # ==================== DATA ANALYSIS SECTION ====================
-    st.markdown(f'## {lucide_icon("pie-chart", 28, "#1f77b4")} Dataset Analysis', unsafe_allow_html=True)
+    st.markdown(f'## {lucide_icon("pie-chart", 28, "#FF6B35")} Dataset Analysis', unsafe_allow_html=True)
     
     # Initialize session state
     if 'show_data_analysis' not in st.session_state:
@@ -604,10 +640,10 @@ def render_landing_page():
                 margin: 10px 0;
             ">
                 <p style="color: #333; margin-bottom: 15px;">
-                    {lucide_icon("trending-up", 20, "#1f77b4")} Explore comprehensive analysis of the dataset including:
+                    {lucide_icon("trending-up", 20, "#FF6B35")} Explore comprehensive analysis of the dataset including:
                 </p>
                 <p style="color: #666; font-size: 0.9em;">
-                    {lucide_icon("bar-chart-2", 14, "#666")} Distribution Charts {lucide_icon("activity", 14, "#666")} Correlation Matrix {lucide_icon("file-text", 14, "#666")} Statistical Summary
+                    {lucide_icon("bar-chart-2", 14, "#718096")} Distribution Charts {lucide_icon("activity", 14, "#718096")} Correlation Matrix {lucide_icon("file-text", 14, "#718096")} Statistical Summary
                 </p>
             </div>
             """, unsafe_allow_html=True)
@@ -646,7 +682,7 @@ def render_landing_page():
         
         if df is not None:
             # Quick stats at the top
-            st.markdown(f'### {lucide_icon("trending-up", 22, "#1f77b4")} Quick Stats', unsafe_allow_html=True)
+            st.markdown(f'### {lucide_icon("trending-up", 22, "#FF6B35")} Quick Stats', unsafe_allow_html=True)
             stat_col1, stat_col2, stat_col3, stat_col4 = st.columns(4)
             
             with stat_col1:
@@ -688,7 +724,7 @@ def render_landing_page():
 
 def render_hdi_page():
     """Render HDI prediction page with ALL required fields on single page"""
-    st.markdown(f'## {lucide_icon("trending-up", 28, "#1f77b4")} Human Development Index Prediction', unsafe_allow_html=True)
+    st.markdown(f'## {lucide_icon("trending-up", 28, "#FF6B35")} Human Development Index Prediction', unsafe_allow_html=True)
     st.markdown("Enter country indicators to predict the HDI score.")
     
     st.markdown("---")
@@ -696,7 +732,7 @@ def render_hdi_page():
     inputs = {}
     
     # ==================== CORE INDICATORS ====================
-    st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Core Indicators', unsafe_allow_html=True)
+    st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#FF6B35")} Core Indicators', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     
     with col1:
@@ -1086,9 +1122,9 @@ def render_hdi_page():
                 backdrop-filter: blur(16px);
             ">
                 <div style="margin-bottom: 10px;">{result_icon}</div>
-                <h1 style="color: #667EEA; margin: 10px 0;">{mock_hdi:.3f}</h1>
+                <h1 style="color: #FF6B35; margin: 10px 0;">{mock_hdi:.3f}</h1>
                 <span style="
-                    background: #667EEA;
+                    background: #FF6B35;
                     color: white;
                     padding: 8px 20px;
                     border-radius: 20px;
@@ -1112,7 +1148,7 @@ def render_hdi_page():
         st.markdown(f'{lucide_icon("lightbulb", 18, "#17a2b8")} **Interpretation:** {interpretations[category]}', unsafe_allow_html=True)
         
         # Feature contribution chart
-        st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Feature Contributions', unsafe_allow_html=True)
+        st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#FF6B35")} Feature Contributions', unsafe_allow_html=True)
         
         import plotly.graph_objects as go
         
@@ -1137,41 +1173,46 @@ def render_hdi_page():
                 x=list(contributions.values()),
                 y=list(contributions.keys()),
                 orientation='h',
-                marker_color='#1f77b4',
+                marker_color='#FF6B35',
                 text=[f'{v:.3f}' for v in contributions.values()],
                 textposition='auto'
             )
         ])
         
         fig.update_layout(
-            title="Contribution to HDI Score",
-            xaxis_title="Contribution",
-            yaxis_title="Feature",
+            title=dict(text="Contribution to HDI Score", font=dict(color='#000000', size=18)),
+            xaxis_title=dict(text="Contribution", font=dict(color='#000000', size=14)),
+            yaxis_title=dict(text="Feature", font=dict(color='#000000', size=14)),
             height=450,
-            yaxis={'categoryorder': 'total ascending'}
+            yaxis={'categoryorder': 'total ascending'},
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#000000'),
+            xaxis=dict(gridcolor='#E2E8F0', zerolinecolor='#E2E8F0', tickfont=dict(color='#000000', size=12)),
+            yaxis_tickfont=dict(color='#000000', size=12)
         )
         
         st.plotly_chart(fig, use_container_width=True)
         
         # Recommendations
-        st.markdown(f'### {lucide_icon("clipboard", 22, "#1f77b4")} Development Recommendations', unsafe_allow_html=True)
+        st.markdown(f'### {lucide_icon("clipboard", 22, "#FF6B35")} Development Recommendations', unsafe_allow_html=True)
         
         recommendations = []
         
         if inputs['Literacy_Rate_pct'] < 80:
-            recommendations.append(f"{lucide_icon('book-open', 16, '#1f77b4')} **Education:** Improve literacy rates through expanded education programs")
+            recommendations.append(f"{lucide_icon('book-open', 16, '#FF6B35')} **Education:** Improve literacy rates through expanded education programs")
         if inputs['Life_Expectancy_years'] < 70:
-            recommendations.append(f"{lucide_icon('hospital', 16, '#1f77b4')} **Healthcare:** Invest in healthcare infrastructure to improve life expectancy")
+            recommendations.append(f"{lucide_icon('hospital', 16, '#FF6B35')} **Healthcare:** Invest in healthcare infrastructure to improve life expectancy")
         if inputs['Internet_Access_pct'] < 60:
-            recommendations.append(f"{lucide_icon('wifi', 16, '#1f77b4')} **Digital:** Expand internet infrastructure for better connectivity")
+            recommendations.append(f"{lucide_icon('wifi', 16, '#FF6B35')} **Digital:** Expand internet infrastructure for better connectivity")
         if inputs['Unemployment_Rate_pct'] > 10:
-            recommendations.append(f"{lucide_icon('briefcase', 16, '#1f77b4')} **Employment:** Implement job creation programs to reduce unemployment")
+            recommendations.append(f"{lucide_icon('briefcase', 16, '#FF6B35')} **Employment:** Implement job creation programs to reduce unemployment")
         if inputs['Gender_Equality_Index'] < 60:
-            recommendations.append(f"{lucide_icon('scale', 16, '#1f77b4')} **Equality:** Strengthen gender equality policies and programs")
+            recommendations.append(f"{lucide_icon('scale', 16, '#FF6B35')} **Equality:** Strengthen gender equality policies and programs")
         if inputs['Days_engaged_in_warfare_per_year'] > 0:
-            recommendations.append(f"{lucide_icon('shield', 16, '#1f77b4')} **Peace:** Prioritize conflict resolution and peacekeeping efforts")
+            recommendations.append(f"{lucide_icon('shield', 16, '#FF6B35')} **Peace:** Prioritize conflict resolution and peacekeeping efforts")
         if inputs['R_and_D_Expenditure_pct_GDP'] < 1.5:
-            recommendations.append(f"{lucide_icon('flask', 16, '#1f77b4')} **Innovation:** Increase R&D investment for technological advancement")
+            recommendations.append(f"{lucide_icon('flask', 16, '#FF6B35')} **Innovation:** Increase R&D investment for technological advancement")
         
         if recommendations:
             for rec in recommendations:
@@ -1185,7 +1226,7 @@ def render_hdi_page():
 # ============================================================
 def render_happiness_page():
     """Render happiness prediction page with ALL required fields"""
-    st.markdown(f'## {lucide_icon("smile", 28, "#1f77b4")} Happiness Index Classification', unsafe_allow_html=True)
+    st.markdown(f'## {lucide_icon("smile", 28, "#FF6B35")} Happiness Index Classification', unsafe_allow_html=True)
     st.markdown("Enter country indicators to classify happiness levels.")
     
     st.markdown("---")
@@ -1193,7 +1234,7 @@ def render_happiness_page():
     inputs = {}
     
     # ==================== CORE INDICATORS ====================
-    st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Core Indicators', unsafe_allow_html=True)
+    st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#FF6B35")} Core Indicators', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     
     with col1:
@@ -1479,9 +1520,9 @@ def render_happiness_page():
                 backdrop-filter: blur(16px);
             ">
                 <div style="margin-bottom: 10px;">{result_icon}</div>
-                <h2 style="color: #1f77b4; margin: 10px 0;">Happiness Level: {happiness_level}</h2>
+                <h2 style="color: #FF6B35; margin: 10px 0;">Happiness Level: {happiness_level}</h2>
                 <span style="
-                    background: #1f77b4;
+                    background: #FF6B35;
                     color: white;
                     padding: 8px 20px;
                     border-radius: 20px;
@@ -1511,7 +1552,7 @@ def render_happiness_page():
         st.markdown(f'{lucide_icon("lightbulb", 18, "#17a2b8")} **Analysis:** {interpretation}', unsafe_allow_html=True)
         
         # Probability distribution
-        st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#1f77b4")} Confidence Distribution', unsafe_allow_html=True)
+        st.markdown(f'### {lucide_icon("bar-chart-2", 22, "#FF6B35")} Confidence Distribution', unsafe_allow_html=True)
         
         import plotly.graph_objects as go
         
@@ -1536,7 +1577,7 @@ def render_happiness_page():
             go.Bar(
                 x=[f"Level {i}" for i in range(1, 9)],
                 y=probs,
-                marker_color=['#1f77b4' if i == happiness_level else '#ccc' 
+                marker_color=['#FF6B35' if i == happiness_level else '#ccc' 
                              for i in range(1, 9)],
                 text=[f'{p:.1%}' for p in probs],
                 textposition='auto'
@@ -1544,17 +1585,22 @@ def render_happiness_page():
         ])
         
         fig.update_layout(
-            title="Prediction Probability by Level",
-            xaxis_title="Happiness Level",
-            yaxis_title="Probability",
+            title=dict(text="Prediction Probability by Level", font=dict(color='#000000', size=18)),
+            xaxis_title=dict(text="Happiness Level", font=dict(color='#000000', size=14)),
+            yaxis_title=dict(text="Probability", font=dict(color='#000000', size=14)),
             yaxis_range=[0, 1],
-            height=350
+            height=350,
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#000000'),
+            xaxis=dict(gridcolor='#E2E8F0', zerolinecolor='#E2E8F0', tickfont=dict(color='#000000', size=12)),
+            yaxis=dict(gridcolor='#E2E8F0', zerolinecolor='#E2E8F0', tickfont=dict(color='#000000', size=12))
         )
         
         st.plotly_chart(fig, use_container_width=True)
         
         # Key factors analysis
-        st.markdown(f'### {lucide_icon("zap", 22, "#1f77b4")} Key Contributing Factors', unsafe_allow_html=True)
+        st.markdown(f'### {lucide_icon("zap", 22, "#FF6B35")} Key Contributing Factors', unsafe_allow_html=True)
         
         factors = {
             'HDI Index': inputs['HDI_Index'] * 2.5,
@@ -1579,11 +1625,16 @@ def render_happiness_page():
         ])
         
         fig2.update_layout(
-            title="Factor Contributions to Happiness Score",
-            xaxis_title="Contribution Score",
-            yaxis_title="Factor",
+            title=dict(text="Factor Contributions to Happiness Score", font=dict(color="#000000", size=18)),
+            xaxis_title=dict(text="Contribution Score", font=dict(color='#000000', size=14)),
+            yaxis_title=dict(text="Factor", font=dict(color='#000000', size=14)),
             height=350,
-            yaxis={'categoryorder': 'total ascending'}
+            yaxis={'categoryorder': 'total ascending'},
+            plot_bgcolor='white',
+            paper_bgcolor='white',
+            font=dict(color='#000000'),
+            xaxis=dict(gridcolor='#E2E8F0', zerolinecolor='#E2E8F0', tickfont=dict(color='#000000', size=12)),
+            yaxis_tickfont=dict(color='#000000', size=12)
         )
         
         st.plotly_chart(fig2, use_container_width=True)
