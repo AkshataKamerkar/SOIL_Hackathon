@@ -944,7 +944,7 @@ def display_happiness_analysis(df: pd.DataFrame):
 def display_data_summary(df: pd.DataFrame):
     """Display enhanced data summary with meaningful insights"""
     
-    section_header("clipboard-list", "Data Summary & Feature Analysis", 
+    section_header("clipboard-list", "Data Summary & Feature Analysis for PreProcessed Data", 
                    "Deep dive into the structure, quality, and characteristics of our dataset", "#8B5CF6")
     st.markdown("---")
     
