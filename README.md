@@ -15,6 +15,14 @@ The application is built with **Streamlit** and powered by **robust ensemble ML 
 
 ---
 
+## Training Notebooks
+
+All the Data PreProcessing and Model Training Notebooks are present in the `notebooks/` directory
+
+- SOIL_HACKATHON_CLASSIFICATION.ipynb
+- SOIL_HACKATHON_DATA_PROCESSING.ipynb
+- SOIL_HACKATHON_REGRESSION.ipynb
+
 ## 📊 Model Performance Summary
 
 ### 🔹 HDI Regression (Ensemble Model)
@@ -108,6 +116,24 @@ cd soil_hackathon_app
 ```python -m venv venv
 source venv/bin/activate # Windows: venv\Scripts\activate
 ```
+
+# Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+# Run app
+
+```
+streamlit run app/main.py
+```
+
+Open: http://localhost:8501
+
+---
+
+## Running Application Directly from the Folder
 
 # Install dependencies
 
