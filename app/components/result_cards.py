@@ -3,7 +3,7 @@ Result Display Components
 """
 import streamlit as st
 from typing import Dict, Any
-from app.models.predictor import PredictionResult
+from models.predictor import PredictionResult
 
 
 def display_hdi_result(result: PredictionResult):

@@ -3,7 +3,7 @@ Reusable Input Form Components
 """
 import streamlit as st
 from typing import Dict, Any, List
-from app.config import config
+from config import config
 
 
 class InputFormBuilder:

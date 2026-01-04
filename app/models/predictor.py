@@ -6,9 +6,9 @@ import pandas as pd
 from typing import Dict, Any, Tuple
 from dataclasses import dataclass
 
-from app.models.model_loader import LoadedModel
-from app.models.feature_engineering import FeatureEngineer
-from app.config import config
+from models.model_loader import LoadedModel
+from models.feature_engineering import FeatureEngineer
+from config import config
 
 
 @dataclass

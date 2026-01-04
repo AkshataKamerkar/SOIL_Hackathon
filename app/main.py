@@ -454,7 +454,7 @@ st.markdown("""
 # ============================================================
 # IMPORTS FROM COMPONENTS
 # ============================================================
-from app.components.visualizations import (
+from components.visualizations import (
     load_dataset,
     display_comprehensive_analysis,
     display_dataset_overview
