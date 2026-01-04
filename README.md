@@ -1,4 +1,4 @@
-# 🌍 Global Development Predictor
+# 🌍 TwinMetricsAI
 
 Machine Learning application to predict **HDI** and **Happiness Index** using Streamlit.
 
@@ -16,18 +16,26 @@ Machine Learning application to predict **HDI** and **Happiness Index** using St
 ## 📁 Project Structure
 
 ```text
-ml_streamlit_app/
+
 ├── app/
+|   |── assets
+|   |   |── styles.css          # Custom CSS
 │   ├── main.py                 # Main application
 │   ├── config.py               # Configuration
 │   └── components/
 │       ├── visualizations.py   # Charts
+|       |── result_cards.py
 │       └── input_forms.py      # Input forms
+|   |── models/
+|       |── feature_engineering.py
+|       |── model_loader.py
+|       |── predictor.py
 ├── saved_models/
 │   ├── classification/         # Happiness model files
 │   └── regression/             # HDI model files
 ├── data/
-│   └── sample_dataset.csv      # Dataset
+│   └── Original_dataset.csv      # Dataset
+|   |── Cleaned_dataset.xlsx
 ├── requirements.txt
 └── README.md
 ```
