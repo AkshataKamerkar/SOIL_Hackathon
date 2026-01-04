@@ -1,4 +1,4 @@
-# 🌍 Global Development Predictor
+# 🌍 TwinMetricsAI
 
 Machine Learning application to predict **HDI** and **Happiness Index** using Streamlit.
 
