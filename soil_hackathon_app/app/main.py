@@ -13,7 +13,7 @@ from plotly.subplots import make_subplots
 
 # Page config must be first Streamlit command
 st.set_page_config(
-    page_title="Global Development Predictor",
+    page_title="TwinMetricsAI",
     page_icon="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f77b4' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/><path d='M2 12h20'/></svg>",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -515,7 +515,7 @@ def render_sidebar():
         st.markdown("<div style='height: 1px; background: linear-gradient(90deg, transparent, #667EEA, transparent); margin: 20px 0;'></div>", unsafe_allow_html=True)
         
         # Footer - YOUR EXACT CONTENT with premium colors
-        st.markdown(f'<div style="text-align: center; padding: 20px 0;">v1.0.0 | Built with {lucide_icon("heart", 16, "#EF4444")} by Team DATA WIZARDS!</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="text-align: center; padding: 20px 0;">v1.0.0 | Built with {lucide_icon("heart", 16, "#EF4444")} by Team DATA GEEKS!</div>', unsafe_allow_html=True)
 
 # ============================================================
 # LANDING PAGE
@@ -525,7 +525,7 @@ def render_sidebar():
 # ============================================================
 def render_landing_page():
     """Render landing page with dataset analysis"""
-    st.markdown(f'<h1 class="main-header">{lucide_icon("globe", 40, "#1f77b4")} Global Development Predictor</h1>', 
+    st.markdown(f'<h1 class="main-header">{lucide_icon("globe", 40, "#1f77b4")} TwinMetricsAI</h1>', 
                 unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Predict HDI & Happiness Index using Machine Learning</p>', 
                 unsafe_allow_html=True)
@@ -697,8 +697,8 @@ def render_hdi_page():
         st.markdown("""
         <div class="ultra-card" style="text-align: center; padding: 20px;">
             <div style="font-size: 0.9rem; color: #A0AEC0; margin-bottom: 5px;">Accuracy</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #667EEA;">91.7%</div>
-            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">+1.2%</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #667EEA;">94.06%</div>
+            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">+-2.2%</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -706,8 +706,8 @@ def render_hdi_page():
         st.markdown("""
         <div class="ultra-card" style="text-align: center; padding: 20px;">
             <div style="font-size: 0.9rem; color: #A0AEC0; margin-bottom: 5px;">Model</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #764BA2;">Ensemble</div>
-            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">8 Classes</div>
+            <div style="font-size: 1.2rem; font-weight: 800; color: #764BA2;">Hybrid Meta-Ensemble</div>
+            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">6 Base Models</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1020,28 +1020,6 @@ def render_hdi_page():
     
     st.markdown("---")
     
-    # Show summary of inputs
-    with st.expander("View All Input Values", expanded=False):
-        # Create a nice formatted table
-        col1, col2 = st.columns(2)
-        
-        input_items = list(inputs.items())
-        mid_point = len(input_items) // 2
-        
-        with col1:
-            st.markdown("**First Half:**")
-            for key, value in input_items[:mid_point]:
-                st.text(f"{key}: {value}")
-        
-        with col2:
-            st.markdown("**Second Half:**")
-            for key, value in input_items[mid_point:]:
-                st.text(f"{key}: {value}")
-        
-        st.markdown("---")
-        st.markdown(f"**Total Features:** {len(inputs)}")
-    
-    st.markdown("---")
     
     # Predict button
     if st.button("Predict HDI", type="primary", use_container_width=True, key="hdi_predict_btn"):
@@ -1214,8 +1192,8 @@ def render_happiness_page():
         st.markdown("""
         <div class="ultra-card" style="text-align: center; padding: 20px;">
             <div style="font-size: 0.9rem; color: #A0AEC0; margin-bottom: 5px;">Accuracy</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #F093FB;">94.2%</div>
-            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">+0.8%</div>
+            <div style="font-size: 2.2rem; font-weight: 800; color: #F093FB;">94.87%</div>
+            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">+-0.8%</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -1223,8 +1201,8 @@ def render_happiness_page():
         st.markdown("""
         <div class="ultra-card" style="text-align: center; padding: 20px;">
             <div style="font-size: 0.9rem; color: #A0AEC0; margin-bottom: 5px;">Model</div>
-            <div style="font-size: 2.2rem; font-weight: 800; color: #764BA2;">Ensemble</div>
-            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">8 Classes</div>
+            <div style="font-size: 1.2rem; font-weight: 800; color: #764BA2;">Random Forest Classification</div>
+            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">5 Classes</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -1457,13 +1435,6 @@ def render_happiness_page():
     
     st.markdown("---")
     
-    # Show summary of inputs
-    with st.expander("View All Input Values", expanded=False):
-        input_df = pd.DataFrame([inputs]).T
-        input_df.columns = ['Value']
-        st.dataframe(input_df, use_container_width=True)
-    
-    st.markdown("---")
     
     # Predict button
     if st.button("Predict Happiness Level", type="primary", use_container_width=True, key="happy_predict_btn"):

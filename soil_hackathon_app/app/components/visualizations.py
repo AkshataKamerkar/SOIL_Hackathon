@@ -137,10 +137,11 @@ def insight_box(text: str, icon_name: str = "lightbulb", color: str = "#6366F1")
 
 
 # ============================================================
-# COLAB NOTEBOOK LINKS - UPDATE THESE
+# COLAB NOTEBOOK LINKS
 # ============================================================
 HDI_COLAB_LINK = "https://colab.research.google.com/drive/1z3qH1mQVcpvkZ35dfR24UBqx5TiULa83?usp=sharing"
-HAPPINESS_COLAB_LINK = "https://colab.research.google.com/drive/1z3qH1mQVcpvkZ35dfR24UBqx5TiULa83?usp=sharing"
+HAPPINESS_COLAB_LINK = "https://colab.research.google.com/drive/1lhrD0PTcI3cs7cmInvENcZHg5DuaRcCL?usp=sharing"
+DATA_PREPROCESSING_COLAB_LINK = "https://colab.research.google.com/drive/1ZLqgKENkVG4YVY1XSUMLfN04n5m-0Bt6?usp=sharing"
 
 
 # ============================================================
@@ -426,7 +427,7 @@ def display_hdi_analysis(df: pd.DataFrame):
         st.plotly_chart(fig, use_container_width=True)
         
         corr = df['GDP_per_Capita_USD'].corr(df['HDI_Index'])
-        insight_box(f"<strong>Insight:</strong> GDP and HDI correlation is <strong>{corr:.2f}</strong>. Economic wealth strongly predicts development, but notice the curve flattens at higher incomes—money alone isn't enough.")
+        insight_box(f"<strong>Insight:</strong> GDP and HDI correlation is <strong>{corr:.2f}</strong>. Economic wealth strongly predicts development, but notice the curve flattens at higher incomes, money alone isn't enough.")
     
     st.markdown("---")
     
@@ -545,7 +546,7 @@ def display_hdi_analysis(df: pd.DataFrame):
         st.plotly_chart(fig, use_container_width=True)
         
         corr = df['Literacy_Rate_pct'].corr(df['Life_Expectancy_years'])
-        insight_box(f"<strong>Insight:</strong> Literacy and life expectancy correlation is <strong>{corr:.2f}</strong>. Educated populations live longer—they make better health choices and demand better healthcare.")
+        insight_box(f"<strong>Insight:</strong> Literacy and life expectancy correlation is <strong>{corr:.2f}</strong>. Educated populations live longer, they make better health choices and demand better healthcare.")
     
     st.markdown("---")
     
@@ -744,7 +745,7 @@ def display_happiness_analysis(df: pd.DataFrame):
         st.plotly_chart(fig, use_container_width=True)
         
         corr = df['HDI_Index'].corr(df[happiness_col])
-        insight_box(f"<strong>Insight:</strong> HDI-Happiness correlation is <strong>{corr:.2f}</strong>. Development is necessary but not sufficient for happiness—governance, freedom, and social support also matter.", "activity", "#EC4899")
+        insight_box(f"<strong>Insight:</strong> HDI-Happiness correlation is <strong>{corr:.2f}</strong>. Development is necessary but not sufficient for happiness, governance, freedom, and social support also matter.", "activity", "#EC4899")
     
     st.markdown("---")
     
@@ -919,7 +920,7 @@ def display_happiness_analysis(df: pd.DataFrame):
         
         st.plotly_chart(fig, use_container_width=True)
         
-        insight_box("<strong>Insight:</strong> All positive indicators rise with happiness level. Notice unemployment drops as happiness increases—job security is crucial for well-being.", "trending-up", "#EC4899")
+        insight_box("<strong>Insight:</strong> All positive indicators rise with happiness level. Notice unemployment drops as happiness increases, job security is crucial for well-being.", "trending-up", "#EC4899")
     
     st.markdown("---")
     
@@ -928,7 +929,7 @@ def display_happiness_analysis(df: pd.DataFrame):
     with col2:
         st.markdown(f"""
         <a href="{HAPPINESS_COLAB_LINK}" target="_blank" style="text-decoration: none;">
-            <div style="background: linear-gradient(90deg, #EC4899, #DB2777); padding: 14px 24px; 
+            <div style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); padding: 14px 24px; 
                         border-radius: 12px; text-align: center; cursor: pointer; 
                         display: flex; align-items: center; justify-content: center; gap: 10px;">
                 {lucide_icon("flask", 20, "#FFFFFF")}
@@ -1481,6 +1482,22 @@ def display_data_summary(df: pd.DataFrame):
             mime="text/csv",
             use_container_width=True
         )
+
+    st.markdown("---")
+    
+    # Deep Dive Button
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.markdown(f"""
+        <a href="{DATA_PREPROCESSING_COLAB_LINK}" target="_blank" style="text-decoration: none;">
+            <div style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); padding: 14px 24px; 
+                        border-radius: 12px; text-align: center; cursor: pointer; 
+                        display: flex; align-items: center; justify-content: center; gap: 10px;">
+                {lucide_icon("flask", 20, "#FFFFFF")}
+                <span style="color: white; font-weight: 600;">Deep Dive: Data PreProcessing Notebook</span>
+            </div>
+        </a>
+        """, unsafe_allow_html=True)
 
 
 # ============================================================
