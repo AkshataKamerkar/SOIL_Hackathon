@@ -1201,11 +1201,11 @@ def render_happiness_page():
         st.markdown("""
         <div class="ultra-card" style="text-align: center; padding: 20px;">
             <div style="font-size: 0.9rem; color: #A0AEC0; margin-bottom: 5px;">Model</div>
-            <div style="font-size: 1.2rem; font-weight: 800; color: #764BA2;">Random Forest Classification</div>
-            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">5 Classes</div>
+            <div style="font-size: 1.2rem; font-weight: 800; color: #764BA2;">Ensemble Classifier</div>
+            <div style="font-size: 0.8rem; color: #48BB78; margin-top: 5px;">4 Base Models</div>
         </div>
         """, unsafe_allow_html=True)
-    
+        
     st.markdown("---")
     
     inputs = {}
