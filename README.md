@@ -23,6 +23,14 @@ All the Data PreProcessing and Model Training Notebooks are present in the `note
 - SOIL_HACKATHON_DATA_PROCESSING.ipynb
 - SOIL_HACKATHON_REGRESSION.ipynb
 
+# Run the Notebooks
+
+```
+1. Run SOIL_HACKATHON_CLASSIFICATION.ipynb -> Get the DataSet
+2. Use that DataSet to Run SOIL_HACKATHON_REGRESSION.ipynb -> Get the Regression Model
+3. Use that DataSet to Run SOIL_HACKATHON_DATA_PROCESSING.ipynb -> Get the Classification Model
+```
+
 ## 📊 Model Performance Summary
 
 ### 🔹 HDI Regression (Ensemble Model)
